@@ -11,7 +11,7 @@ const P = n => MY_PHOTOS[n % MY_PHOTOS.length];
 // =====================================================
 const GALLERY_PHOTOS = [
   "gallery/img1.jpg", "gallery/img2.jpg", "gallery/img3.jpg", "gallery/img4.jpg", "gallery/img5.jpg",
-  "gallery/img6.jpg", "gallery/img7.jpg", "gallery/img8.jpg", "gallery/img9.jpg", "gallery/img10.jpg,", "gallery/img11.jpg", "gallery/img12.jpg", "gallery/img13.jpg", "gallery/img14.jpg", "gallery/img15.jpg",
+  "gallery/img6.jpg", "gallery/img7.jpg", "gallery/img8.jpg", "gallery/img9.jpg", "gallery/img10.jpg", "gallery/img11.jpg", "gallery/img12.jpg", "gallery/img13.jpg", "gallery/img14.jpg", "gallery/img15.jpg",
   "gallery/img16.jpg", "gallery/img17.jpg", "gallery/img18.jpg", "gallery/img19.jpg", "gallery/img20.jpg",
   "gallery/img21.jpg", "gallery/img22.jpg", "gallery/img23.jpg", "gallery/img24.jpg", "gallery/img25.jpg", "gallery/img26.jpg", "gallery/img27.jpg", "gallery/img28.jpg", "gallery/img29.jpg", "gallery/img30.jpg"
   , "gallery/img31.jpg", "gallery/img32.jpg", "gallery/img33.jpg", "gallery/img34.jpg", "gallery/img35.jpg"
@@ -91,33 +91,65 @@ function fxHTML() {
   return `<span class="fx-frame"></span><span class="fx-sweep"></span>${motes}`;
 }
 
+const pad2 = n => String(n).padStart(2, "0");
+const esc = t => String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const CAP_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/></svg>';
+
+// Bụi vàng bay lên từ thẻ vừa mở
+function gcMotes() {
+  let m = "";
+  for (let k = 0; k < 16; k++) {
+    m += `<i class="gc-mote" style="left:${(6 + Math.random() * 88).toFixed(0)}%;--s:${(2 + Math.random() * 3).toFixed(1)}px;--h:-${(90 + Math.random() * 150).toFixed(0)}px;--du:${(2 + Math.random() * 1.6).toFixed(2)}s;--dl:${(0.3 + Math.random() * 1.6).toFixed(2)}s"></i>`;
+  }
+  return m;
+}
+
+/* Khách mời: mọi ô bị che bởi "cánh cửa" nhung (ẩn cả ảnh lẫn tên).
+   Nhập đúng mật khẩu: khóa xoay → cửa mở → thẻ lật ra như thẻ nhân vật. */
 function renderGuests() {
   const grid = $("guest-grid");
   if (!grid) return;
   grid.innerHTML = "";
+  grid.classList.toggle("has-on", unlockedGuestIndex !== null);
 
   GUESTS.forEach((g, i) => {
+    const num = pad2(i + 1), on = unlockedGuestIndex === i;
     const card = document.createElement("button");
+    card.type = "button";
     card.id = `guest-card-${i}`;
-    card.className = "guest-card reveal in" + (opened.has(g.id) ? " opened" : "");
-    paint(card, g, i);
-    card.setAttribute("aria-label", `Mở thiệp của ${g.name}`);
-    
-    if (unlockedGuestIndex !== null) {
-      if (i === unlockedGuestIndex) {
-        card.classList.add("highlighted");
-        card.innerHTML = `<span class="guest-label">${g.name}<span class="lock" aria-hidden="true">${opened.has(g.id) ? ICON.unlock : ICON.spark}</span></span>`;
-        card.insertAdjacentHTML("beforeend", fxHTML());
-        card.addEventListener("click", () => showInvite(g, i));
-      } else {
-        card.classList.add("locked-dim");
-        card.innerHTML = `<span class="guest-label">${g.name}<span class="lock" aria-hidden="true">${ICON.lock}</span></span>`;
-      }
-    } else {
-      card.classList.add("locked-dim");
-      card.innerHTML = `<span class="guest-label">${g.name}<span class="lock" aria-hidden="true">${ICON.lock}</span></span>`;
-    }
-    
+    card.className = "gcard " + (on ? "is-on" : "is-sealed");
+    card.setAttribute("aria-label", on ? `Mở thiệp của ${g.name}` : `Thiệp số ${num} đang được khóa`);
+
+    const front = on ? `
+        <span class="gc-rate"><b>${num}</b><small>Trân Trọng</small></span>
+        <span class="gc-crest">${CAP_SVG}</span>
+        <span class="gc-info"><i class="gc-line"></i><span class="gc-name">${esc(g.name)}</span>
+          <small class="gc-cap">CLASS OF 2026 · VIP</small><small class="gc-hint">Chạm để mở thiệp</small></span>
+        <span class="gc-foil"></span>` : "";
+
+    card.innerHTML = `
+      <span class="gc-stage"><span class="gc-tilt"><span class="gc-flip">
+        <span class="gc-face gc-front">${front}</span>
+        <span class="gc-face gc-back"><span class="gc-mono"><i>N</i></span><small>CLASS OF 2026</small></span>
+      </span></span></span>
+      <span class="gc-door">
+        <i class="gc-leaf l"></i><i class="gc-leaf r"></i><i class="gc-beam"></i>
+        <span class="gc-no">No. ${num}</span>
+        <span class="gc-lock">${ICON.lock}</span>
+        <span class="gc-redact"><i></i><i></i><i></i></span>
+        <span class="gc-sealed-txt">Danh tính được giữ kín</span>
+      </span>
+      <i class="gc-glow"></i>${on ? `<span class="gc-frame"></span>${gcMotes()}` : ""}`;
+
+    if (on) paint(card.querySelector(".gc-front"), g, i);
+
+    card.addEventListener("click", () => {
+      if (on) { if (card.classList.contains("is-open")) showInvite(g, i); return; }
+      // Ô đang khóa: rung nhẹ và đưa người xem về ô nhập mật khẩu
+      card.classList.remove("nudge"); void card.offsetWidth; card.classList.add("nudge");
+      const f = $("quick-pw");
+      if (f) { f.scrollIntoView({ behavior: "smooth", block: "center" }); setTimeout(() => f.focus({ preventScroll: true }), 450); }
+    });
     grid.appendChild(card);
   });
 }
@@ -137,33 +169,24 @@ function smoothScrollToElement(element) {
 function handleQuickUnlock() {
   const inputEl = $("quick-pw");
   if (!inputEl) return;
-  
-  const inputVal = inputEl.value.trim().toLowerCase();
-  const foundIndex = GUESTS.findIndex(g => g.password.toLowerCase() === inputVal);
+  const err = $("quick-error");
+  const idx = GUESTS.findIndex(g => g.password.toLowerCase() === inputEl.value.trim().toLowerCase());
 
-  if (foundIndex !== -1) {
-    unlockedGuestIndex = foundIndex;
-    const err = $("quick-error");
+  if (idx !== -1) {
+    unlockedGuestIndex = idx;
     if (err) err.classList.remove("show");
-    
+    inputEl.blur();
     renderGuests();
-
-    const targetCard = $(`guest-card-${foundIndex}`);
-    if (targetCard) {
-      // Thực hiện cuộn mượt xuống ô thiệp
-      smoothScrollToElement(targetCard);
-    }
-
-    setTimeout(() => targetCard.classList.add("fx-play"), 700);
+    const card = $(`guest-card-${idx}`);
+    if (!card) return;
+    smoothScrollToElement(card);
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) { card.classList.add("opening", "is-open"); return; }
+    setTimeout(() => card.classList.add("opening"), 750);      // khóa xoay → cửa mở → thẻ lật
+    setTimeout(() => card.classList.add("is-open"), 750 + 3700); // hoạt cảnh xong: cho phép chạm để mở thiệp
   } else {
-    const err = $("quick-error");
     if (err) err.classList.add("show");
     const form = document.querySelector(".unlock-form");
-    if (form) {
-      form.classList.remove("shake"); 
-      void form.offsetWidth; 
-      form.classList.add("shake");
-    }
+    if (form) { form.classList.remove("shake"); void form.offsetWidth; form.classList.add("shake"); }
     inputEl.select();
   }
 }
@@ -295,7 +318,7 @@ renderGuests();
 const io = new IntersectionObserver(entries => entries.forEach(e => {
   if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
 }), { threshold: 0.12 });
-document.querySelectorAll(".section-head, .guest-card, .info-item").forEach((el, i) => {
+document.querySelectorAll(".section-head, .gcard, .info-item").forEach((el, i) => {
   el.style.setProperty("--d", `${(i % 4) * 0.08}s`);
   el.classList.add("reveal");
   io.observe(el);
@@ -424,18 +447,19 @@ if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
   }, { passive: true });
 })();
 
-// Ô khách nghiêng 3D (dùng ủy quyền sự kiện vì lưới được vẽ lại khi mở khóa)
+// Thẻ đã mở nghiêng 3D theo con trỏ, vệt foil chạy theo (lưới được vẽ lại khi mở khóa nên dùng ủy quyền sự kiện)
 (function () {
   const grid = $("guest-grid"); if (!grid) return;
   grid.addEventListener("pointermove", e => {
-    const c = e.target.closest(".guest-card");
-    if (!c || c.classList.contains("locked-dim")) return;
+    const c = e.target.closest(".gcard.is-open"); if (!c) return;
     const r = c.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
-    c.style.setProperty("--rx", ((0.5 - y) * 12).toFixed(1) + "deg");
-    c.style.setProperty("--ry", ((x - 0.5) * 14).toFixed(1) + "deg");
+    c.style.setProperty("--rx", ((0.5 - y) * 14).toFixed(1) + "deg");
+    c.style.setProperty("--ry", ((x - 0.5) * 16).toFixed(1) + "deg");
+    c.style.setProperty("--gx", (x * 100).toFixed(0) + "%");
+    c.style.setProperty("--gy", (y * 100).toFixed(0) + "%");
   });
   grid.addEventListener("pointerout", e => {
-    const c = e.target.closest(".guest-card");
+    const c = e.target.closest(".gcard.is-open");
     if (c && !c.contains(e.relatedTarget)) { c.style.setProperty("--rx", "0deg"); c.style.setProperty("--ry", "0deg"); }
   });
 })();
@@ -555,4 +579,23 @@ function setCd(id, v) {
   };
   addEventListener("scroll", onScroll, { passive: true });
   onScroll();
+})();
+
+/* =====================================================
+   MENU DI ĐỘNG (nút ☰ cho điện thoại và iPad dọc)
+   ===================================================== */
+(function () {
+  const head = document.querySelector(".site-header"), btn = $("nav-toggle");
+  if (!head || !btn) return;
+  const set = open => {
+    head.classList.toggle("nav-open", open);
+    btn.setAttribute("aria-expanded", String(open));
+    btn.setAttribute("aria-label", open ? "Đóng menu" : "Mở menu");
+  };
+  btn.addEventListener("click", () => set(!head.classList.contains("nav-open")));
+  head.querySelectorAll("nav a").forEach(a => a.addEventListener("click", () => set(false)));
+  document.addEventListener("click", e => { if (!head.contains(e.target)) set(false); });
+  addEventListener("keydown", e => { if (e.key === "Escape") set(false); });
+  addEventListener("resize", () => { if (innerWidth > 900) set(false); });
+  addEventListener("scroll", () => { if (head.classList.contains("hide")) set(false); }, { passive: true });
 })();

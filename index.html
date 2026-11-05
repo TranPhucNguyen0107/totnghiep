@@ -2,7 +2,8 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#8e1033">
   <title>Tốt nghiệp | Trần Phúc Nguyên</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Allura&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -32,13 +33,13 @@
 <!-- ============ TRANG CHỦ ============ -->
 <div id="home">
   <header class="site-header">
-    <a class="brand" href="#top"><span class="brand-dot"></span>TRẦN PHÚC NGUYÊN - COMPUTER SCIENCE AND ENGINEERING</a>
-    <nav>
+    <a class="brand" href="#top"><span class="brand-dot"></span>TRẦN PHÚC NGUYÊN</a>
+    <nav id="site-nav">
       <a href="#top">Trang chủ</a>
-      <a href="#guests">Khách mời</a>
-      <a href="#gallery">Khoảnh khắc</a>
+      <a href="#guests">Thân hữu</a>
       <a href="#info">Thông tin</a>
     </nav>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Mở menu" aria-expanded="false" aria-controls="site-nav"><span></span><span></span><span></span></button>
     <div class="progress" id="progress"></div>
   </header>
 
@@ -69,7 +70,7 @@
   <main>
     <section class="guests" id="guests">
       <div class="section-head">
-        <p class="eyebrow">01 · Khách mời</p>
+        <p class="eyebrow">01 · THÂN HỮU</p>
         <h2>Thiệp mời dành riêng cho bạn</h2>
         <p>Vui lòng nhập mật khẩu riêng để tìm thấy chiếc thiệp trân trọng dành cho bạn.</p>
       </div>
@@ -93,21 +94,10 @@
       <div class="stat"><b data-to="1">00</b><span>ngày không thể quên</span></div>
     </section>
 
-    <!-- GALLERY: ảnh cấu hình trong script.js (mảng GALLERY_PHOTOS) -->
-    <section class="gallery" id="gallery" aria-label="Khoảnh khắc">
-      <div class="section-head">
-        <p class="eyebrow">02 · Khoảnh khắc</p>
-        <h2>Những khoảnh khắc đáng nhớ</h2>
-        <p>Chạm vào một bức ảnh để xem lớn.</p>
-      </div>
-      <div class="strip" id="strip-a"><div class="strip-track"></div></div>
-      <div class="strip rev" id="strip-b"><div class="strip-track"></div></div>
-    </section>
-
     <!-- THÔNG TIN BUỔI LỄ -->
     <div id="info">
       <div class="section-head">
-        <p class="eyebrow">03 · Buổi lễ</p>
+        <p class="eyebrow">02 · Buổi lễ</p>
         <h2>Thông tin buổi lễ</h2>
       </div>
       <section class="info">
