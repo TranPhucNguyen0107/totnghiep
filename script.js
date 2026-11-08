@@ -1,52 +1,62 @@
 /* =====================================================
+   HÀM MÃ HÓA MẬT KHẨU (BẢO VỆ CHỐNG F12)
+   ===================================================== */
+function hashPw(str) {
+  if (!str) return "";
+  const s = String(str).trim().toLowerCase();
+  const salt = "GRAD2026_NP_";
+  let res = "";
+  for (let i = 0; i < s.length; i++) {
+    let code = s.charCodeAt(i) ^ salt.charCodeAt(i % salt.length) ^ (i + 7);
+    res += code.toString(16).padStart(2, "0");
+  }
+  return res;
+}
+
+/* =====================================================
    CẤU HÌNH DỮ LIỆU
    ===================================================== */
 const MY_PHOTOS = Array.from({ length: 35 }, (_, i) => `img/img${i + 1}.jpg`);
 const P = n => MY_PHOTOS[n % MY_PHOTOS.length];
 
-// =====================================================
-// ẢNH GALLERY (mục "Khoảnh khắc"): bỏ ảnh vào thư mục "gallery" (cạnh index.html, tách riêng với "img") rồi liệt kê ở đây.
-// Ghi đường dẫn đơn giản, hoặc { src: "...", caption: "Chú thích", pos: "50% 20%" }
-// để thêm chú thích khi xem lớn / chỉnh vị trí cắt ảnh. Thêm hay bớt bao nhiêu ảnh cũng được.
-// =====================================================
 const GALLERY_PHOTOS = [
   "gallery/img1.jpg", "gallery/img2.jpg", "gallery/img3.jpg", "gallery/img4.jpg", "gallery/img5.jpg",
   "gallery/img6.jpg", "gallery/img7.jpg", "gallery/img8.jpg", "gallery/img9.jpg", "gallery/img10.jpg", "gallery/img11.jpg", "gallery/img12.jpg", "gallery/img13.jpg", "gallery/img14.jpg", "gallery/img15.jpg",
   "gallery/img16.jpg", "gallery/img17.jpg", "gallery/img18.jpg", "gallery/img19.jpg", "gallery/img20.jpg",
-  "gallery/img21.jpg", "gallery/img22.jpg", "gallery/img23.jpg", "gallery/img24.jpg", "gallery/img25.jpg", "gallery/img26.jpg", "gallery/img27.jpg", "gallery/img28.jpg", "gallery/img29.jpg", "gallery/img30.jpg"
-  , "gallery/img31.jpg", "gallery/img32.jpg", "gallery/img33.jpg", "gallery/img34.jpg", "gallery/img35.jpg"
+  "gallery/img21.jpg", "gallery/img22.jpg", "gallery/img23.jpg", "gallery/img24.jpg", "gallery/img25.jpg", "gallery/img26.jpg", "gallery/img27.jpg", "gallery/img28.jpg", "gallery/img29.jpg", "gallery/img30.jpg",
+  "gallery/img31.jpg", "gallery/img32.jpg", "gallery/img33.jpg", "gallery/img34.jpg", "gallery/img35.jpg"
 ];
 
 const GUESTS = [
-  { id: "LQK", name: "Lê Quang Khôi", password: "lqk", photo: P(6), bgPos: "75% center", message: "Con cảm ơn ba mẹ đã luôn ủng hộ và hy sinh để con có được ngày hôm nay. Sự hiện diện của ba mẹ là món quà lớn nhất đối với con." },
-  { id: "TI", name: "TI COMPANY", password: "ticompany", photo: P(7), message: "Cảm ơn cậu đã luôn ở bên động viên tớ suốt thời đại học. Hãy đến chung vui cùng tớ trong ngày đặc biệt này nhé!" },
-  { id: "TLTT", name: "CHỊ TRẦN LƯU THANH TRÚC", password: "tltt", photo: P(11), message: "Chúc anh em gồng lãi thành công, long/short bách phát bách trúng. Nhớ chốt lời kịp lúc rồi đến dự lễ tốt nghiệp nhé!" },
-  { id: "TMQ", name: "Trần Minh Quân", password: "tmq", photo: P(8), bgPos: "25% center", message: "Cuối cùng tao cũng ra trường rồi anh em ạ. Cảm ơn tụi mày đã cày rank và chạy deadline cùng tao suốt mấy năm qua." },
-  { id: "NTHM", name: "Nguyễn Trần Hoàng Minh", password: "nthm", photo: P(12), message: "Chụp cho người ta nhiều rồi, hôm nay đến lượt mình làm mẫu. Anh em nhớ vác theo body lens đến nháy vài bô." },
-  { id: "DHC", name: "Anh Đinh Huy Cường", password: "dhc", photo: P(9), bgPos: "49% 100%", bgSize: "140%", message: "Từ những dòng lệnh SQL, thiết kế schema cho đến các mô hình dữ liệu phức tạp, cảm ơn anh em đã luôn hỗ trợ." },
-  { id: "SVMCS", name: "Servants.Micasa", password: "servants", photo: P(10), message: "Cảm ơn các anh chị em đã đồng hành và chỉ việc nhiệt tình cho em trong thời gian làm Data Labeling." },
-  { id: "NAT", name: "Anh Nguyễn Anh Tuấn", password: "nat", photo: P(13),  bgPos: "25% center",  message: "Drop con beat mừng tốt nghiệp thôi anh em! Cảm ơn mọi người đã chia sẻ project file, drum kit cực xịn." },
-  { id: "NHP", name: "Anh Nguyễn Hoàng Phúc", password: "nhp", photo: P(14), message: "Bao nhiêu đêm thức trắng cãi nhau nảy lửa, cuối cùng team mình cũng hái được quả ngọt." },
-  { id: "DTDM", name: "Đinh Thụy Diễm My", password: "dtdm", photo: P(15), message: "Mới ngày nào còn ngồi chung ghế đá sân trường, giờ thằng bạn của tụi mày đã cử nhân rồi." },
-  { id: "TTMA", name: "Trần Thị Minh Anh", password: "ttma", photo: P(16), message: "Cảm ơn mày đã chịu đựng thói quen sinh hoạt của tao mấy năm qua. Đến dự để tao khao một chầu ra trò." },
-  { id: "NTTA", name: "nguyễn thụy tâm an", password: "ntta", photo: P(17), message: "Cảm ơn những ly bạc xỉu và câu chuyện phím đã cứu rỗi tâm hồn tôi qua các mùa thi cử." },
-  { id: "TAK", name: "anh trần anh khoa", password: "tak", photo: P(18), message: "Em cảm ơn anh chị đã luôn truyền đạt kinh nghiệm và tài liệu quý giá cho em." },
-  { id: "THTT", name: "chị trần hoàng thiện tâm", password: "thtt", photo: P(19), message: "Đến dự lễ để lấy vía ra trường đúng hạn nha mấy đứa. Cố gắng học tập, năm sau anh ra chúc mừng lại." },
-  { id: "NTQ", name: "anh Nguyễn Thanh Quang", password: "ntq", photo: P(20), message: "Tạm gác lại đường bóng trên sân cỏ, chủ nhật này anh em mặc suit đến sân khấu tốt nghiệp check-in." },
-  { id: "PGH", name: "phạm gia huy", password: "pgh", photo: P(21), message: "We finally made it! Cảm ơn mọi người đã cùng nhau cày từ vựng mỗi tối." },
-  { id: "VPXQ", name: "chị vũ phan xuân quỳnh (sếp)", password: "vpxq", photo: P(22), message: "Thẻ đã quẹt, đồ đã chốt. Lên đồ xúng xính đến nhận bằng cùng tôi nào mọi người ơi!" },
-  { id: "NN", name: "chị Ngô bảo nghi", password: "nn", photo: P(23), message: "Bữa tiệc này không thể thiếu những tay nâng ly chuyên nghiệp. Nhớ để bụng dự tiệc ăn mừng." },
-  { id: "DTLP", name: "chị Đinh thị liên phương", password: "dtlp", photo: P(24), message: "Chỉ cần 3 chữ: Hẹn gặp lại. Có mặt lúc 16h45 nhé anh em!" },
-  { id: "PNTD", name: "pHAN NGUYỄN THỊNH ĐẠT", password: "PNTD", photo: P(25), message: "Bạn là một trong những người có sức ảnh hưởng lớn nhất đến hành trình trưởng thành của tôi." },
-  { id: "TPU", name: "trịnh phương uyên", password: "tpu", photo: P(26), message: "Cảm ơn bạn đã luôn đồng hành và hỗ trợ tôi trong suốt thời gian học tập tại trường." },
-  { id: "NHTL", name: "Nguyễn hồng thùy linh", password: "nhtl", photo: P(27),message: "Sự hiện diện của bạn trong ngày tốt nghiệp sẽ là niềm vui lớn đối với tôi." },
-  { id: "LTTT", name: "lê thị thanh thảo", password: "lttt", photo: P(28), message: "Cảm ơn bạn đã luôn là nguồn động viên và hỗ trợ tôi trong suốt thời gian học tập." },
-  { id: "NTHA", name: "nguyễn thị hồng anh", password: "ntha", photo: P(29), message: "Sự hiện diện của bạn trong ngày tốt nghiệp sẽ là niềm vui lớn đối với tôi." },
-  { id: "LTTT2", name: "lê thị thanh thảo 2", password: "lttt2",  photo: P(30), message: "Cảm ơn bạn đã luôn là nguồn động viên và hỗ trợ tôi trong suốt thời gian học tập." },
-  { id: "NTHA2", name: "nguyễn thị hồng anh 2", password: "ntha2", photo: P(31), message: "Sự hiện diện của bạn trong ngày tốt nghiệp sẽ là niềm vui lớn đối với tôi." },
-  { id: "LTTT3", name: "lê thị thanh thảo 3", password: "lttt3",  photo: P(32), message: "Cảm ơn bạn đã luôn là nguồn động viên và hỗ trợ tôi trong suốt thời gian học tập." },
-  { id: "NTHA3", name: "nguyễn thị hồng anh 3", password: "ntha3", photo: P(33), message: "Sự hiện diện của bạn trong ngày tốt nghiệp sẽ là niềm vui lớn đối với tôi." },
-  { id: "LBKH", name: "lê bá khánh hoàng", password: "lbkh",  photo: P(34), message: "Cảm ơn bạn đã luôn là nguồn động viên và hỗ trợ tôi trong suốt thời gian học tập." },
+  { id: "LQK", name: "Lê Quang Khôi", password: hashPw(String.fromCharCode(108, 113, 107, 52, 57, 50)), photo: P(6), bgPos: "75% center", message: "Con cảm ơn ba mẹ đã luôn ủng hộ và hy sinh để con có được ngày hôm nay. Sự hiện diện của ba mẹ là món quà lớn nhất đối với con." },
+  { id: "TI", name: "TI COMPANY", password: hashPw(String.fromCharCode(116, 105, 99, 111, 109, 112, 97, 110, 121, 56, 49, 53)), photo: P(7), message: "Cảm ơn cậu đã luôn ở bên động viên tớ suốt thời đại học. Hãy đến chung vui cùng tớ trong ngày đặc biệt này nhé!" },
+  { id: "TLTT", name: "CHỊ TRẦN LƯU THANH TRÚC", password: hashPw(String.fromCharCode(116, 108, 116, 116, 51, 55, 49)), photo: P(11), message: "Chúc anh em gồng lãi thành công, long/short bách phát bách trúng. Nhớ chốt lời kịp lúc rồi đến dự lễ tốt nghiệp nhé!" },
+  { id: "TMQ", name: "Trần Minh Quân", password: hashPw(String.fromCharCode(116, 109, 113, 57, 48, 52)), photo: P(8), bgPos: "25% center", message: "Có gì hôm đó đi để chụp hình cho Pháp nha hahaha. Nói chứ nếu Bin rảnh thì cứ đến chơi với Pháp nha. Dù gì thì Pháp cũng không có bạn bè gì nhiều chỉ chủ yếu có gia đình thôi à hehe" },
+  { id: "NTHM", name: "Nguyễn Trần Hoàng Minh", password: hashPw(String.fromCharCode(110, 116, 104, 109, 50, 54, 56)), photo: P(12), message: "Chụp cho người ta nhiều rồi, hôm nay đến lượt mình làm mẫu. Anh em nhớ vác theo body lens đến nháy vài bô." },
+  { id: "DHC", name: "Anh Đinh Huy Cường", password: hashPw(String.fromCharCode(100, 104, 99, 53, 49, 51)), photo: P(9), bgPos: "49% 100%", bgSize: "140%", message: "Em cảm ơn anh vì đã cho em có được vinh dự được đồng hành cùng anh và các em Dự Trưởng. Còn bây giờ thì cũng thật vinh dự khi có sự hiện diện của anh trong ngày tốt nghiệp của em. Nếu anh rảnh thì anh ghé chơi nha hehehe" },
+  { id: "SVMCS", name: "Servants.Micasa", password: hashPw(String.fromCharCode(115, 101, 114, 118, 97, 110, 116, 115, 48, 56, 57, 54, 52, 50)), photo: P(10), message: "Cảm ơn các em đã cho anh có được vinh dự đồng hành cùng các em trong những chuyến đi của thanh xuân. Còn giờ đây, trong chặng hành trình cuối cùng của anh nơi giảng đường, thật vinh dự khi có sự góp mặt của tất cả các em. Anh chờ các em ^^" },
+  { id: "NAT", name: "Anh Nguyễn Anh Tuấn", password: hashPw(String.fromCharCode(110, 97, 116, 49, 56, 57)), photo: P(13), bgPos: "25% center", message: "Drop con beat mừng tốt nghiệp thôi anh em! Cảm ơn mọi người đã chia sẻ project file, drum kit cực xịn." },
+  { id: "NHP", name: "Anh Nguyễn Hoàng Phúc", password: hashPw(String.fromCharCode(110, 104, 112, 55, 51, 53)), photo: P(14), message: "Bao nhiêu đêm thức trắng cãi nhau nảy lửa, cuối cùng team mình cũng hái được quả ngọt." },
+  { id: "DTDM", name: "Đinh Thụy Diễm My", password: hashPw(String.fromCharCode(100, 116, 100, 109, 52, 50, 48)), photo: P(15), message: "Mới ngày nào còn ngồi chung ghế đá sân trường, giờ thằng bạn của tụi mày đã cử nhân rồi." },
+  { id: "TTMA", name: "Trần Thị Minh Anh", password: hashPw(String.fromCharCode(116, 116, 109, 97, 54, 49, 55)), photo: P(16), message: "Cảm ơn mày đã chịu đựng thói quen sinh hoạt của tao mấy năm qua. Đến dự để tao khao một chầu ra trò." },
+  { id: "NTTA", name: "nguyễn thụy tâm an", password: hashPw(String.fromCharCode(110, 116, 116, 97, 56, 53, 51)), photo: P(17), message: "Cảm ơn những ly bạc xỉu và câu chuyện phím đã cứu rỗi tâm hồn tôi qua các mùa thi cử." },
+  { id: "TAK", name: "anh trần anh khoa", password: hashPw(String.fromCharCode(116, 97, 107, 50, 57, 52)), photo: P(18), message: "Em cảm ơn anh chị đã luôn truyền đạt kinh nghiệm và tài liệu quý giá cho em." },
+  { id: "THTT", name: "chị trần hoàng thiện tâm", password: hashPw(String.fromCharCode(116, 104, 116, 116, 49, 48, 54)), photo: P(19), message: "Đến dự lễ để lấy vía ra trường đúng hạn nha mấy đứa. Cố gắng học tập, năm sau anh ra chúc mừng lại." },
+  { id: "NTQ", name: "anh Nguyễn Thanh Quang", password: hashPw(String.fromCharCode(110, 116, 113, 53, 56, 50)), photo: P(20), message: "Tạm gác lại đường bóng trên sân cỏ, chủ nhật này anh em mặc suit đến sân khấu tốt nghiệp check-in." },
+  { id: "PGH", name: "phạm gia huy", password: hashPw(String.fromCharCode(112, 103, 104, 51, 55, 57)), photo: P(21), message: "We finally made it! Cảm ơn mọi người đã cùng nhau cày từ vựng mỗi tối." },
+  { id: "VPXQ", name: "chị vũ phan xuân quỳnh (sếp)", password: hashPw(String.fromCharCode(118, 112, 120, 113, 54, 52, 49)), photo: P(22), message: "Thẻ đã quẹt, đồ đã chốt. Lên đồ xúng xính đến nhận bằng cùng tôi nào mọi người ơi!" },
+  { id: "NN", name: "chị Ngô bảo nghi", password: hashPw(String.fromCharCode(110, 110, 56, 50, 52)), photo: P(23), message: "Bữa tiệc này không thể thiếu những tay nâng ly chuyên nghiệp. Nhớ để bụng dự tiệc ăn mừng." },
+  { id: "DTLP", name: "chị Đinh thị liên phương", password: hashPw(String.fromCharCode(100, 116, 108, 112, 57, 53, 49)), photo: P(24), message: "Chỉ cần 3 chữ: Hẹn gặp lại. Có mặt lúc 16h45 nhé anh em!" },
+  { id: "PNTD", name: "pHAN NGUYỄN THỊNH ĐẠT", password: hashPw(String.fromCharCode(112, 110, 116, 100, 55, 51, 50)), photo: P(25), message: "Bạn là một trong những người có sức ảnh hưởng lớn nhất đến hành trình trưởng thành của tôi." },
+  { id: "TPU", name: "trịnh phương uyên", password: hashPw(String.fromCharCode(116, 112, 117, 52, 49, 56)), photo: P(26), message: "Cảm ơn bạn đã luôn đồng hành và hỗ trợ tôi trong suốt thời gian học tập tại trường." },
+  { id: "NHTL", name: "Nguyễn hồng thùy linh", password: hashPw(String.fromCharCode(110, 104, 116, 108, 54, 48, 53)), photo: P(27), message: "Sự hiện diện của bạn trong ngày tốt nghiệp sẽ là niềm vui lớn đối tôi." },
+  { id: "LTTT", name: "lê thị thanh thảo", password: hashPw(String.fromCharCode(108, 116, 116, 116, 56, 57, 51)), photo: P(28), message: "Cảm ơn bạn đã luôn là nguồn động viên và hỗ trợ tôi trong suốt thời gian học tập." },
+  { id: "NTHA", name: "nguyễn thị hồng anh", password: hashPw(String.fromCharCode(110, 116, 104, 97, 49, 52, 55)), photo: P(29), message: "Sự hiện diện của bạn trong ngày tốt nghiệp sẽ là niềm vui lớn đối với tôi." },
+  { id: "LTTT2", name: "lê thị thanh thảo 2", password: hashPw(String.fromCharCode(108, 116, 116, 116, 50, 53, 50, 54)), photo: P(30), message: "Cảm ơn bạn đã luôn là nguồn động viên và hỗ trợ tôi trong suốt thời gian học tập." },
+  { id: "NTHA2", name: "nguyễn thị hồng anh 2", password: hashPw(String.fromCharCode(110, 116, 104, 97, 50, 51, 56, 49)), photo: P(31), message: "Sự hiện diện của bạn trong ngày tốt nghiệp sẽ là niềm vui lớn đối với tôi." },
+  { id: "LTTT3", name: "lê thị thanh thảo 3", password: hashPw(String.fromCharCode(108, 116, 116, 116, 51, 55, 57, 52)), photo: P(32), message: "Cảm ơn bạn đã luôn là nguồn động viên và hỗ trợ tôi trong suốt thời gian học tập." },
+  { id: "NTHA3", name: "nguyễn thị hồng anh 3", password: hashPw(String.fromCharCode(110, 116, 104, 97, 51, 49, 54, 50)), photo: P(33), message: "Sự hiện diện của bạn trong ngày tốt nghiệp sẽ là niềm vui lớn đối với tôi." },
+  { id: "LBKH", name: "lê bá khánh hoàng", password: hashPw(String.fromCharCode(108, 98, 107, 104, 52, 53, 57)), photo: P(34), message: "Cảm ơn bạn đã luôn là nguồn động viên và hỗ trợ tôi trong suốt thời gian học tập." },
 ];
 
 /* =====================================================
@@ -54,7 +64,6 @@ const GUESTS = [
    ===================================================== */
 const $ = id => document.getElementById(id);
 const PASTELS = ["#8e1033", "#0a0a0a", "#8e1033", "#0a0a0a", "#8e1033", "#0a0a0a"];
-
 const bg = (src, i) => `url('${src}'), linear-gradient(135deg, ${PASTELS[i % 6]}, ${PASTELS[(i + 1) % 6]})`;
 
 function paint(el, g, i) {
@@ -75,27 +84,16 @@ function renderCollage() {
   }
 }
 
-// Biểu tượng khóa dạng SVG (thay emoji cho tinh tế hơn)
 const ICON = {
   lock: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6z"/></svg>',
   unlock: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm6-9h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6h2c0-1.66 1.34-3 3-3s3 1.34 3 3v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2z"/></svg>',
   spark: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8z"/></svg>'
 };
 
-// Hiệu ứng tại ô được mở khóa: khung ánh vàng chạy quanh viền, vệt sáng lướt qua, bụi vàng mịn bay lên
-function fxHTML() {
-  let motes = "";
-  for (let k = 0; k < 16; k++) {
-    motes += `<i class="fx-mote" style="left:${(6 + Math.random() * 88).toFixed(0)}%;--s:${(2 + Math.random() * 3).toFixed(1)}px;--h:-${(90 + Math.random() * 150).toFixed(0)}px;--du:${(2 + Math.random() * 1.6).toFixed(2)}s;--dl:${(0.4 + Math.random() * 1.6).toFixed(2)}s"></i>`;
-  }
-  return `<span class="fx-frame"></span><span class="fx-sweep"></span>${motes}`;
-}
-
 const pad2 = n => String(n).padStart(2, "0");
 const esc = t => String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const CAP_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/></svg>';
 
-// Bụi vàng bay lên từ thẻ vừa mở
 function gcMotes() {
   let m = "";
   for (let k = 0; k < 16; k++) {
@@ -104,8 +102,6 @@ function gcMotes() {
   return m;
 }
 
-/* Khách mời: mọi ô bị che bởi "cánh cửa" nhung (ẩn cả ảnh lẫn tên).
-   Nhập đúng mật khẩu: khóa xoay → cửa mở → thẻ lật ra như thẻ nhân vật. */
 function renderGuests() {
   const grid = $("guest-grid");
   if (!grid) return;
@@ -124,13 +120,20 @@ function renderGuests() {
         <span class="gc-rate"><b>${num}</b><small>Trân Trọng</small></span>
         <span class="gc-crest">${CAP_SVG}</span>
         <span class="gc-info"><i class="gc-line"></i><span class="gc-name">${esc(g.name)}</span>
-          <small class="gc-cap">CLASS OF 2026 · VIP</small><small class="gc-hint">Chạm để mở thiệp</small></span>
+          <small class="gc-cap">CLASS OF 2026</small><small class="gc-hint">Chạm để mở thiệp</small></span>
         <span class="gc-foil"></span>` : "";
 
     card.innerHTML = `
       <span class="gc-stage"><span class="gc-tilt"><span class="gc-flip">
         <span class="gc-face gc-front">${front}</span>
-        <span class="gc-face gc-back"><span class="gc-mono"><i>N</i></span><small>CLASS OF 2026</small></span>
+        <span class="gc-face gc-back">
+          <i class="bk-c tl"></i><i class="bk-c tr"></i><i class="bk-c bl"></i><i class="bk-c br"></i>
+          <small class="bk-top">THIỆP MỜI TỐT NGHIỆP</small>
+          <span class="bk-art"><svg viewBox="0 0 120 120" aria-hidden="true"><circle class="bk-dots" cx="60" cy="60" r="57"/><circle class="bk-ring" cx="60" cy="60" r="49"/><circle class="bk-ring2" cx="60" cy="60" r="43"/></svg><i>N</i></span>
+          <span class="bk-script">Graduation</span>
+          <small class="bk-bot">TRẦN PHÚC NGUYÊN · 2026</small>
+          <span class="bk-sheen"></span>
+        </span>
       </span></span></span>
       <span class="gc-door">
         <i class="gc-leaf l"></i><i class="gc-leaf r"></i><i class="gc-beam"></i>
@@ -145,7 +148,6 @@ function renderGuests() {
 
     card.addEventListener("click", () => {
       if (on) { if (card.classList.contains("is-open")) showInvite(g, i); return; }
-      // Ô đang khóa: rung nhẹ và đưa người xem về ô nhập mật khẩu
       card.classList.remove("nudge"); void card.offsetWidth; card.classList.add("nudge");
       const f = $("quick-pw");
       if (f) { f.scrollIntoView({ behavior: "smooth", block: "center" }); setTimeout(() => f.focus({ preventScroll: true }), 450); }
@@ -154,23 +156,18 @@ function renderGuests() {
   });
 }
 
-/* Tự động cuộn mượt bằng JavaScript mượt mà nhất */
 function smoothScrollToElement(element) {
-  const headerOffset = 110;
   const elementPosition = element.getBoundingClientRect().top;
   const offsetPosition = elementPosition + window.pageYOffset - (window.innerHeight / 2) + (element.offsetHeight / 2) - 20;
-
-  window.scrollTo({
-    top: offsetPosition,
-    behavior: "smooth"
-  });
+  window.scrollTo({ top: offsetPosition, behavior: "smooth" });
 }
 
 function handleQuickUnlock() {
   const inputEl = $("quick-pw");
   if (!inputEl) return;
   const err = $("quick-error");
-  const idx = GUESTS.findIndex(g => g.password.toLowerCase() === inputEl.value.trim().toLowerCase());
+  const hashedInput = hashPw(inputEl.value);
+  const idx = GUESTS.findIndex(g => g.password === hashedInput);
 
   if (idx !== -1) {
     unlockedGuestIndex = idx;
@@ -181,8 +178,8 @@ function handleQuickUnlock() {
     if (!card) return;
     smoothScrollToElement(card);
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) { card.classList.add("opening", "is-open"); return; }
-    setTimeout(() => card.classList.add("opening"), 750);      // khóa xoay → cửa mở → thẻ lật
-    setTimeout(() => card.classList.add("is-open"), 750 + 3700); // hoạt cảnh xong: cho phép chạm để mở thiệp
+    setTimeout(() => card.classList.add("opening"), 750);
+    setTimeout(() => card.classList.add("is-open"), 750 + 3700);
   } else {
     if (err) err.classList.add("show");
     const form = document.querySelector(".unlock-form");
@@ -191,23 +188,8 @@ function handleQuickUnlock() {
   }
 }
 
-if ($("quick-unlock-btn")) {
-  $("quick-unlock-btn").addEventListener("click", handleQuickUnlock);
-}
-if ($("quick-pw")) {
-  $("quick-pw").addEventListener("keydown", e => { if (e.key === "Enter") handleQuickUnlock(); });
-}
-
-function openModal(guest, i) {
-  current = { guest, i };
-  $("modal-name").textContent = `Thiệp gửi đến ${guest.name}`;
-  paint($("modal-photo"), guest, i);
-  $("pw").value = "";
-  $("error").classList.remove("show");
-  $("modal").classList.add("open");
-  $("modal").setAttribute("aria-hidden", "false");
-  setTimeout(() => $("pw").focus(), 50);
-}
+if ($("quick-unlock-btn")) $("quick-unlock-btn").addEventListener("click", handleQuickUnlock);
+if ($("quick-pw")) $("quick-pw").addEventListener("keydown", e => { if (e.key === "Enter") handleQuickUnlock(); });
 
 function closeModal() {
   $("modal").classList.remove("open");
@@ -215,7 +197,7 @@ function closeModal() {
 }
 
 function unlock() {
-  if ($("pw").value.trim().toLowerCase() === current.guest.password.toLowerCase()) {
+  if (hashPw($("pw").value) === current.guest.password) {
     closeModal();
     markOpened(current.guest.id, current.i);
     showInvite(current.guest, current.i);
@@ -227,7 +209,6 @@ function unlock() {
     $("pw").select();
   }
 }
-
 
 function setMessage(text) {
   const box = $("invite-msg");
@@ -270,9 +251,7 @@ function openEnvelope() {
   }, 2000);
 }
 
-if ($("env-seal")) {
-  $("env-seal").addEventListener("click", openEnvelope);
-}
+if ($("env-seal")) $("env-seal").addEventListener("click", openEnvelope);
 
 const shell = document.querySelector(".pass-shell");
 if (shell && matchMedia("(hover: hover) and (pointer: fine)").matches) {
@@ -406,11 +385,6 @@ if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
   }
 }
 
-
-/* =====================================================
-   ĐỢT 3 – ĐỘT PHÁ
-   ===================================================== */
-// Màn chờ mở màn: vòng vàng đầy dần quanh chữ N, dừng một nhịp rồi kéo rèm
 (function () {
   const pl = $("preloader"), num = $("pl-num"), ring = $("pl-ring");
   if (!pl || !ring) { document.body.classList.add("loaded"); return; }
@@ -436,7 +410,6 @@ if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
   })(t0);
 })();
 
-// Hero: chữ khổng lồ trượt ngang, thẻ trôi chậm hơn khi cuộn
 (function () {
   const giant = document.querySelector(".hero-giant"), card = document.querySelector(".hero-card");
   if (!giant || !card) return;
@@ -447,7 +420,6 @@ if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
   }, { passive: true });
 })();
 
-// Thẻ đã mở nghiêng 3D theo con trỏ, vệt foil chạy theo (lưới được vẽ lại khi mở khóa nên dùng ủy quyền sự kiện)
 (function () {
   const grid = $("guest-grid"); if (!grid) return;
   grid.addEventListener("pointermove", e => {
@@ -464,7 +436,6 @@ if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
   });
 })();
 
-// Bụi vàng bay lên trong hero
 (function () {
   const hero = document.querySelector(".hero"); if (!hero) return;
   const box = document.createElement("div"); box.className = "dust"; box.setAttribute("aria-hidden", "true");
@@ -476,7 +447,6 @@ if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
   hero.appendChild(box);
 })();
 
-// Gallery "Khoảnh khắc": hai dải ảnh chạy ngược chiều + xem ảnh lớn
 (function () {
   const list = GALLERY_PHOTOS.map(p => typeof p === "string" ? { src: p } : p), n = list.length;
   const sec = $("gallery"); if (!sec) return;
@@ -519,10 +489,7 @@ if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
   lb.addEventListener("touchstart", e => { tx = e.touches[0].clientX; }, { passive: true });
   lb.addEventListener("touchend", e => { const d = e.changedTouches[0].clientX - tx; if (Math.abs(d) > 50) show(cur + (d < 0 ? 1 : -1)); });
 })();
-/* =====================================================
-   CHUYỂN ĐỘNG MƯỢT – cùng ngôn ngữ với màn chờ
-   ===================================================== */
-// Chữ số đếm ngược lật nhẹ mỗi khi đổi
+
 function setCd(id, v) {
   const el = $(id);
   if (!el || el.textContent === v) return;
@@ -530,7 +497,6 @@ function setCd(id, v) {
   el.classList.remove("flip"); void el.offsetWidth; el.classList.add("flip");
 }
 
-// Các khối còn lại cũng hiện dần khi cuộn tới
 (function () {
   const io2 = new IntersectionObserver(es => es.forEach(e => {
     if (e.isIntersecting) { e.target.classList.add("in"); io2.unobserve(e.target); }
@@ -542,7 +508,6 @@ function setCd(id, v) {
   });
 })();
 
-// Ruy-băng chữ chạy theo tốc độ cuộn: cuộn càng nhanh, dải chạy càng nhanh
 (function () {
   if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   const tracks = [...document.querySelectorAll(".ribbon-track")];
@@ -564,7 +529,6 @@ function setCd(id, v) {
   })();
 })();
 
-// Thị sai khi cuộn (ảnh hero, chữ CẢM ƠN ở footer) + thanh menu ẩn khi cuộn xuống, hiện lại khi cuộn lên
 (function () {
   const col = $("collage"), foot = document.querySelector(".site-footer"), head = document.querySelector(".site-header");
   let lastY = scrollY;
@@ -581,9 +545,6 @@ function setCd(id, v) {
   onScroll();
 })();
 
-/* =====================================================
-   MENU DI ĐỘNG (nút ☰ cho điện thoại và iPad dọc)
-   ===================================================== */
 (function () {
   const head = document.querySelector(".site-header"), btn = $("nav-toggle");
   if (!head || !btn) return;
