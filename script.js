@@ -56,7 +56,7 @@ const GUESTS = [
   { id: "NTHA2", name: "nguyễn thị hồng anh 2", password: hashPw(String.fromCharCode(110, 116, 104, 97, 50, 51, 56, 49)), photo: P(31), message: "Sự hiện diện của bạn trong ngày tốt nghiệp sẽ là niềm vui lớn đối với tôi." },
   { id: "LTTT3", name: "lê thị thanh thảo 3", password: hashPw(String.fromCharCode(108, 116, 116, 116, 51, 55, 57, 52)), photo: P(32), message: "Cảm ơn bạn đã luôn là nguồn động viên và hỗ trợ tôi trong suốt thời gian học tập." },
   { id: "NTHA3", name: "nguyễn thị hồng anh 3", password: hashPw(String.fromCharCode(110, 116, 104, 97, 51, 49, 54, 50)), photo: P(33), message: "Sự hiện diện của bạn trong ngày tốt nghiệp sẽ là niềm vui lớn đối với tôi." },
-  { id: "LBKH", name: "lê bá khánh hoàng", password: hashPw(String.fromCharCode(108, 98, 107, 104, 52, 53, 57)), photo: P(34), message: "Cảm ơn bạn đã luôn là nguồn động viên và hỗ trợ tôi trong suốt thời gian học tập." },
+  { id: "LBKH", name: "lê bá khánh hoàng", password: hashPw(String.fromCharCode(108, 98, 107, 104, 52, 53, 57)), photo: P(34), message: "Mày bước lên đây chụp hình cho tao, không đi thì ở nhà" },
 ];
 
 /* =====================================================
