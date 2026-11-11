@@ -28,7 +28,7 @@ const GALLERY_PHOTOS = [
 ];
 
 const GUESTS = [
-  { id: "LQK", name: "Lê Quang Khôi", password: hashPw(String.fromCharCode(108, 113, 107, 52, 57, 50)), photo: P(6), bgPos: "75% center", message: "Con cảm ơn ba mẹ đã luôn ủng hộ và hy sinh để con có được ngày hôm nay. Sự hiện diện của ba mẹ là món quà lớn nhất đối với con." },
+  { id: "LQK", name: "Lê Quang Khôi", password: hashPw(String.fromCharCode(108, 113, 107, 52, 57, 50)), photo: P(6), bgPos: "75% center", message: "Tao cũng hơi tiếc là mày không đến được trong ngày tốt nghiệp của tao do mày ở xa. Mà thôi biết sao giờ, tao cũng vinh dự vì được có mày làm bạn, không có mày tao cũng tủi vl vì chả có ai chơi được. Thôi thì tao mời máy theo tư cách danh dự nha bro, hope you'll enjoy it. Thanks to be bros for 16 years mate" },
   { id: "TI", name: "TI COMPANY", password: hashPw(String.fromCharCode(116, 105, 99, 111, 109, 112, 97, 110, 121, 56, 49, 53)), photo: P(7), message: "Cảm ơn cậu đã luôn ở bên động viên tớ suốt thời đại học. Hãy đến chung vui cùng tớ trong ngày đặc biệt này nhé!" },
   { id: "TLTT", name: "CHỊ TRẦN LƯU THANH TRÚC", password: hashPw(String.fromCharCode(116, 108, 116, 116, 51, 55, 49)), photo: P(11), message: "Bắt buộc phải đi, không có phải mời gì cả. À đi nhớ mang theo quà nha ní" },
   { id: "TMQ", name: "Trần Minh Quân", password: hashPw(String.fromCharCode(116, 109, 113, 57, 48, 52)), photo: P(8), bgPos: "25% center", message: "Có gì hôm đó đi để chụp hình cho Pháp nha hahaha. Nói chứ nếu Bin rảnh thì cứ đến chơi với Pháp nha. Dù gì thì Pháp cũng không có bạn bè gì nhiều chỉ chủ yếu có gia đình thôi à hehe" },
