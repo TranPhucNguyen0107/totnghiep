@@ -52,9 +52,8 @@ const GUESTS = [
   { id: "NHTL", name: "Nguyễn hồng thùy linh", password: hashPw(String.fromCharCode(110, 104, 116, 108, 54, 48, 53)), photo: P(27), message: "Sự hiện diện của bạn trong ngày tốt nghiệp sẽ là niềm vui lớn đối tôi." },
  { id: "ĐHTP", name: "Đinh Hoàng Thiên Phúc", password: hashPw(String.fromCharCode(100, 104, 116, 112, 56, 57, 51)), photo: P(28), message: "Cảm ơn vì những năng lượng tích cực mà em mang lại. Và bây giờ, anh cần năng lượng đó trong ngày vui nhất của anh. Anh đợi chú!" },
   { id: "VHBT", name: "Hoàng Võ Bảo Trâm", password: hashPw(String.fromCharCode(118, 104, 98, 116, 49, 52, 55)), photo: P(29), message: "Cảm ơn vì những năng lượng tích cực mà em mang lại. Và bây giờ, anh cần năng lượng đó trong ngày vui nhất của anh. Đi nhe!" },
-  { id: "NTHA2", name: "nguyễn thị hồng anh 2", password: hashPw(String.fromCharCode(110, 116, 104, 97, 50, 51, 56, 49)), photo: P(31), message: "Sự hiện diện của bạn trong ngày tốt nghiệp sẽ là niềm vui lớn đối với tôi." },
-  { id: "LTTT3", name: "lê thị thanh thảo 3", password: hashPw(String.fromCharCode(108, 116, 116, 116, 51, 55, 57, 52)), photo: P(32), message: "Cảm ơn bạn đã luôn là nguồn động viên và hỗ trợ tôi trong suốt thời gian học tập." },
-  { id: "NTHA3", name: "nguyễn thị hồng anh 3", password: hashPw(String.fromCharCode(110, 116, 104, 97, 51, 49, 54, 50)), photo: P(33), message: "Sự hiện diện của bạn trong ngày tốt nghiệp sẽ là niềm vui lớn đối với tôi." },
+  { id: "DLTG", name: "đào lê tịnh giang", password: hashPw(String.fromCharCode(100, 108, 116, 103, 53, 57, 51)), photo: P(30), message: "Này, đi nhá. Hơi xa một chút nhưng nếu rảnh thì ghé chơi ha kkkk" }, 
+  { id: "NTTA", name: "nguyễn thụy tâm an", password: hashPw(String.fromCharCode(110, 116, 116, 97, 56, 55, 49)), photo: P(31), message: "Có gì bố rảnh ghé chơi với con nha bố, con có rủ cái My với cái Manh nữa nên là rất là vui nếu cả 3 đều đến luôn ạ ^^. Web này con làm không có database tại lười quá nên bố đừng f12 check của người khác nha :))). " }, 
   { id: "LBKH", name: "lê bá khánh hoàng", password: hashPw(String.fromCharCode(108, 98, 107, 104, 52, 53, 57)), photo: P(34), message: "Mày bước lên đây chụp hình cho tao, không đi thì ở nhà" },
 ];
 
