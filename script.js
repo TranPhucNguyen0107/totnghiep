@@ -59,6 +59,7 @@ const GUESTS = [
   { id: "NKN", name: "Đinh Hoàng Kim Ngân", password: hashPw(String.fromCharCode(110, 107, 110, 52, 54, 51)), photo: P(34), message: "Dạt ra cho KNgân tới chơi nào hẹ hẹ hẹ. Rảnh thì em ghé lên chơi hen" },
   { id: "NNTD", name: "chị Nguyễn Ngọc Thùy Dương", password: hashPw(String.fromCharCode(110, 110, 116, 100, 56, 51, 53)), photo: P(35), message: "Chị ơi lần này comeback he, không thể nào bỏ quên được chị của em trong ngày rất rất đặc biệt này của em. Em chưa bao giờ quên những ngày tháng chị em mình sát cánh cùng nhau trong ban truyền thông, trải qua hết đủ thứ chuyện ngang dọc để rồi lần lượt ngẩng đầu rời đi mà không nuối tiếc. Nếu chị rảnh chị ghé lên chơi với em nhe ^^" },
   { id: "NK", name: "Nguyễn Khang", password: hashPw(String.fromCharCode(110, 107, 52, 54, 56)), photo: P(36), bgPos: "50% 22%", message: "Anh vẫn luôn xem chú như là một thành viên rất tài năng của Ban Truyền Thông, chưa bao giờ anh cảm thấy ban mình phát triển đến vậy, khi có sự xuất hiện của chú. Nếu rảnh thì chú có thể ghé chơi với anh nha, tuy không còn chung ban nữa nhưng chú vẫn sẽ là một trong những người mà anh luôn đề cao nhất trong lĩnh vực truyền thông. Anh đợi chú!" },
+  { id: "HKX", name: "Huỳnh Kim Xuân", password: hashPw(String.fromCharCode(104, 107, 120, 49, 50, 49)), photo: P(37), bgPos: "50% 22%", message: "Cảm ơn Xuân vì đã chưa bao giờ quên Nguyên trong suốt quãng thời gian quá dài vừa qua. Rất vinh dự khi có sự góp mặt của người bạn cấp 2 năm ấy trong ngày tốt nghiệp của Nguyên. Nếu rảnh thì ghé chơi nhe!" },
 
 ];
 
